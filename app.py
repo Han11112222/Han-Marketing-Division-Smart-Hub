@@ -5,7 +5,7 @@ import os
 # --------------------------------------------------------------------------
 # 1. 디자인 설정 (헤더 스타일 추가!)
 # --------------------------------------------------------------------------
-st.set_page_config(layout="wide", page_title="마케팅팀 Smart Marketing Hub")
+st.set_page_config(layout="wide", page_title="HAN Smart Marketing Hub")
 
 st.markdown("""
 <style>
@@ -110,7 +110,7 @@ def get_data():
 # --------------------------------------------------------------------------
 # 3. 화면 그리기
 # --------------------------------------------------------------------------
-st.markdown('<div class="main-title">🔥 마케팅팀 _ Smart Marketing Hub</div>', unsafe_allow_html=True)
+st.markdown('<div class="main-title">🔥 HAN _ Smart Marketing Hub</div>', unsafe_allow_html=True)
 
 df, alert_msg = get_data()
 
