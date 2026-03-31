@@ -82,7 +82,8 @@ def get_data():
         
         header_idx = -1
         for i, row in df.iterrows():
-            row_str = " ".join(row.astype(str))
+            # [수정된 부분] .astype(str) 대신 리스트 내포를 사용하여 빈칸(NaN) 오류 원천 차단
+            row_str = " ".join([str(val) for val in row])
             if "구분" in row_str and "내용" in row_str:
                 header_idx = i
                 break
@@ -131,7 +132,7 @@ if not df.empty:
                 <div class="divider-top"></div>
             """, unsafe_allow_html=True)
 
-            # 2. [NEW] 컬럼 헤더 (내용 | 활용도 | 링크) - 여기가 추가되었습니다!
+            # 2. [NEW] 컬럼 헤더 (내용 | 활용도 | 링크)
             st.markdown("""
             <div class="list-header">
                 <div class="content-area" style="padding-left: 5px;">업무 내용</div>
