@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import os
 
 # --------------------------------------------------------------------------
 # 1. 디자인 설정 (헤더 스타일 추가!)
@@ -68,30 +67,28 @@ st.markdown("""
 # 2. 데이터 로드 및 청소
 # --------------------------------------------------------------------------
 def get_data():
-    file_name = 'marketing_hub.xlsx'
+    # 구글 스프레드시트 데이터를 실시간 CSV로 가져오는 내보내기 URL 주소
+    sheet_url = "https://docs.google.com/spreadsheets/d/1fu8wYyfCMHBK6rpD3kbl4G_zmwEcse7tKjY08_SucM8/export?format=csv&gid=0"
     
     backup_data = [
         {"구분": "Key Support", "내용": "샘플 데이터", "기능": "엑셀 연결 필요", "활용도": 5, "링크": "#"}
     ]
     
-    if not os.path.exists(file_name):
-        return pd.DataFrame(backup_data), "⚠️ 엑셀 파일을 찾지 못해 '비상용 데이터'를 보여줍니다."
-
     try:
-        df = pd.read_excel(file_name, engine='openpyxl', header=None)
+        # 기존 로컬 엑셀 파일 대신 웹상의 스프레드시트 CSV 데이터를 판다스로 로드합니다.
+        df = pd.read_csv(sheet_url, header=None)
         
         header_idx = -1
         for i, row in df.iterrows():
-            # [수정된 부분] .astype(str) 대신 리스트 내포를 사용하여 빈칸(NaN) 오류 원천 차단
             row_str = " ".join([str(val) for val in row])
             if "구분" in row_str and "내용" in row_str:
                 header_idx = i
                 break
         
         if header_idx == -1:
-             return pd.DataFrame(backup_data), "⚠️ 엑셀 형식이 맞지 않습니다. ('구분', '내용' 헤더 없음)"
+             return pd.DataFrame(backup_data), "⚠️ 스프레드시트 형식이 맞지 않습니다. ('구분', '내용' 헤더 없음)"
 
-        df = pd.read_excel(file_name, engine='openpyxl', header=header_idx)
+        df = pd.read_csv(sheet_url, header=header_idx)
         df = df.fillna("")
         
         # 불필요한 헤더 행 제거
