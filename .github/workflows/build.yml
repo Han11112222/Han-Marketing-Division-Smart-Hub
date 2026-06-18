@@ -1,0 +1,33 @@
+name: Build Android App
+
+on: [workflow_dispatch] # 원할 때 수동으로 빌드 버튼을 누르겠다는 의미입니다.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 내 코드 가져오기
+        uses: actions/checkout@v4
+
+      - name: 파이썬 설정하기
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 안드로이드 빌드용 자바(Java) 설정하기
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: 필요한 파이썬 패키지 설치하기
+        run: pip install flet pandas openpyxl
+
+      - name: 진짜 안드로이드 앱(.apk)으로 변환하기
+        run: flet build apk mobile_app.py
+
+      - name: 완성된 앱 파일 다운로드할 수 있게 저장하기
+        uses: actions/upload-artifact@v4
+        with:
+          name: Smart-Hub-App
+          path: build/apk/**/*.apk
