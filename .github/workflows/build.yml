@@ -20,11 +20,16 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
 
+      - name: 플러터(Flutter) 엔진 설정하기 (앱 빌드 핵심)
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
       - name: 필요한 파이썬 패키지 설치하기
         run: pip install flet pandas openpyxl
 
-      - name: 진짜 안드로이드 앱(.apk)으로 변환하기
-        run: flet build apk mobile_app.py
+      - name: 진짜 안드로이드 앱(.apk)으로 변환하기 (모든 질문에 무조건 yes)
+        run: yes | flet build apk mobile_app.py
 
       - name: 완성된 앱 파일 다운로드할 수 있게 저장하기
         uses: actions/upload-artifact@v4
