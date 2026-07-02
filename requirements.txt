@@ -1,6 +1,5 @@
-streamlit
+flet==0.24.1
 pandas
 openpyxl
-flet==0.24.1
 certifi
 requests
